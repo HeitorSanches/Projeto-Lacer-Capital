@@ -10,6 +10,8 @@
             --vermelho: #dc3545;
             --cinza-claro: #f4f6f8;
             --texto: #333;
+            --erro-fundo: #f8d7da; /* Rosa claro para fundo de erro */
+            --erro-texto: #721c24; /* Vermelho escuro para texto de erro */
         }
 
         body {
@@ -39,6 +41,23 @@
             flex-wrap: wrap;
             max-width: 1200px;
             margin-bottom: 40px;
+            /* 💡 Adicionamos 'position: relative' para que o erro possa se expandir */
+            position: relative; 
+        }
+
+        /* 💡 NOVO: Estilo para a mensagem de erro */
+        .erro-mensagem {
+            background-color: var(--erro-fundo);
+            color: var(--erro-texto);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 1px solid #f5c6cb;
+            margin: 10px 0 20px 0; /* Margem inferior para separar dos cards */
+            width: 100%; /* Ocupa a largura total do container */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            order: -1; /* Força a aparecer no topo do flex container */
+            text-align: center;
+            font-weight: 600;
         }
 
         .col-saida-historico {
@@ -172,25 +191,28 @@
         .contratos-tabela tbody tr:hover {
             background-color: #f0f4f8;
         }
-
     </style>
 </head>
 <body>
     <h1>💹 Gestão de Posição</h1>
 
     <div class="container">
-        <!-- Card de posição -->
+        
+        {% if erro %}
+        <div class="erro-mensagem">
+            ⚠️ {{ erro }}
+        </div>
+        {% endif %}
+
         <div class="card">
             <h3>Posição Atual</h3>
             <p class="info"><strong>Ativo:</strong> {{ posicao._ativo.title() }}</p>
             <p class="info"><strong>Tipo:</strong> {{ posicao._tipo.title() }}</p>
             <p class="info"><strong>Preço Médio:</strong> {{ "%.2f" | format(posicao._preco_medio) }}</p>
             <p class="info"><strong>Quantidade de Contratos:</strong> {{ posicao._qtd_contratos }}</p>
-            <p class="info"><strong>Último Preço:</strong> {{ posicao._precos[-1] if posicao._precos else '---' }}</p>
             <p class="info"><strong>Lucro/Prejuízo:</strong> {{ "{:,.2f}".format(posicao._resultado) }}</p>
         </div>
 
-        <!-- Formulário de entrada -->
         <form action="{{ url_for('entrada') }}" method="post">
             <h3>Entrada</h3>
             <select name="ativo" required>
@@ -210,7 +232,6 @@
             <button type="submit">Registrar Entrada</button>
         </form>
 
-        <!-- Coluna de saída e histórico -->
         <div class="col-saida-historico">
             <form action="{{ url_for('saida') }}" method="post">
                 <h3>Saída</h3>
@@ -226,7 +247,6 @@
         </div>
     </div>
 
-    <!-- Lista de contratos isolada e centralizada -->
     {% if posicao._contratos %}
     <div class="contratos-container">
         <div class="contratos-tabela">
@@ -246,11 +266,11 @@
                     {% for contrato in posicao._contratos %}
                     <tr>
                         <td>{{ contrato['Posição ID'] }}</td>
-                        <td>{{ contrato['Ativo'] }}</td>
+                        <td>{{ contrato['Ativo'].title() }}</td>
                         <td>{{ contrato['Quantidade contratos'] }}</td>
                         <td>{{ contrato['Tipo'].title() }}</td>
                         <td>{{ contrato['Direção'] }}</td>
-                        <td>{{ contrato['Preço'] }}</td>
+                        <td>{{ "{:,.2f}".format(contrato['Preço']) }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

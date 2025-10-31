@@ -17,9 +17,21 @@ def entrada():
     tipo_operacao = request.form["tipo_operacao"]
     preco = float(request.form["preco"])
     qtd = int(request.form["qtd"])
-    contrato = Contrato(tipo_operacao, "Entrada", preco,ativo)
-    posicao.entrada(qtd, contrato)
-    return redirect(url_for("index"))
+    
+    # Cria o objeto Contrato
+    contrato = Contrato(tipo_operacao, "Entrada", preco, ativo)
+    
+    # 💡 CORREÇÃO: Chama o método APENAS UMA VEZ.
+    # O método 'entrada' retorna uma string de erro OU None (se for bem-sucedido).
+    erro = posicao.entrada(qtd, contrato) 
+
+    if erro:
+        # Se retornar uma string de erro (ex: "não é possível operar outro ativo")
+        # o histórico já foi desfeito dentro do método 'entrada' da classe Posicao.
+        return render_template('index.html', posicao=posicao, erro=erro)
+    else:
+        # Se for None, significa sucesso
+        return redirect(url_for("index"))
 
 @app.route("/saida", methods=["POST"])
 def saida():
