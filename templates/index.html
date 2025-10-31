@@ -30,6 +30,7 @@
             text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
+        /* Layout principal das colunas superiores */
         .container {
             display: flex;
             justify-content: center;
@@ -37,6 +38,7 @@
             gap: 30px;
             flex-wrap: wrap;
             max-width: 1200px;
+            margin-bottom: 40px;
         }
 
         .col-saida-historico {
@@ -73,7 +75,7 @@
             color: var(--azul-escuro);
         }
 
-        input {
+        input, select {
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
@@ -81,9 +83,10 @@
             font-size: 14px;
             transition: border-color 0.2s;
             width: 100%;
+            background-color: white;
         }
 
-        input:focus {
+        input:focus, select:focus {
             border-color: var(--azul);
             outline: none;
         }
@@ -122,109 +125,53 @@
             color: #666;
         }
 
-        ul {
-            list-style: none;
-            padding: 0;
+        /* Tabela de contratos centralizada */
+        .contratos-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
         }
 
-        li {
-            padding: 6px 0;
+        .contratos-tabela {
+            width: 90%;
+            max-width: 900px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .contratos-tabela h3 {
+            margin-bottom: 15px;
+            color: var(--azul-escuro);
+        }
+
+        .contratos-tabela table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .contratos-tabela th, .contratos-tabela td {
+            padding: 10px 12px;
+            text-align: center;
+        }
+
+        .contratos-tabela thead {
+            background-color: var(--cinza-claro);
+            color: var(--azul-escuro);
+            font-weight: 600;
+        }
+
+        .contratos-tabela tbody tr {
             border-bottom: 1px solid #eee;
+            transition: background 0.2s;
         }
 
-        li:last-child {
-            border-bottom: none;
+        .contratos-tabela tbody tr:hover {
+            background-color: #f0f4f8;
         }
-
-
-
-    .contratos-tabela {
-        width: 100%;
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 20px;
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-
-    .contratos-tabela h3 {
-        margin-bottom: 15px;
-        color: var(--azul-escuro);
-    }
-
-    .contratos-tabela table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        font-size: 14px;
-    }
-
-    .contratos-tabela th, .contratos-tabela td {
-        padding: 12px 15px;
-        text-align: center;
-    }
-
-    .contratos-tabela thead {
-        background-color: var(--cinza-claro);
-        color: var(--azul-escuro);
-        font-weight: 600;
-        border-radius: 10px 10px 0 0;
-    }
-
-    .contratos-tabela tbody tr {
-        border-bottom: 1px solid #eee;
-        transition: background 0.2s;
-    }
-
-    .contratos-tabela tbody tr:hover {
-        background-color: #f0f4f8;
-    }
-
-    .contratos-tabela td {
-        color: #333;
-    }
-
-        /* Adiciona estilos para os elementos de seleção (dropdowns) */
-    select {
-        /* Herda o mesmo padding dos inputs */
-        padding: 10px;
-        /* Herda a mesma margem inferior dos inputs */
-        margin-bottom: 10px;
-        /* Herda a mesma borda dos inputs */
-        border: 1px solid #ccc;
-        /* Herda o mesmo arredondamento de borda */
-        border-radius: 6px;
-        /* Herda o mesmo tamanho de fonte */
-        font-size: 14px;
-        /* Herda a mesma transição para a borda */
-        transition: border-color 0.2s;
-        /* Garante que o select ocupe 100% da largura, como os inputs */
-        width: 100%;
-        /* Define o mesmo fundo branco dos inputs (embora o padrão seja branco) */
-        background-color: white;
-        /* Remove a aparência nativa do sistema operacional para customização */
-        -webkit-appearance: none; 
-        -moz-appearance: none;
-        appearance: none;
-        /* Adiciona um pequeno ícone de seta para indicar que é um dropdown (opcional) */
-        /* background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007bff%22%20d%3D%22M287%2069.9a17.6%2017.6%200%2000-24.8%200L146.2%20185%2030.3%2069.9a17.6%2017.6%200%2000-24.8%2024.8l130.6%20130.8a17.6%2017.6%200%200024.8%200l130.6-130.8a17.6%2017.6%200%20000-24.8z%22%2F%3E%3C%2Fsvg%3E'); */
-        /* background-repeat: no-repeat; */
-        /* background-position: right 10px center; */
-        /* background-size: 10px; */
-    }
-
-    /* Adiciona o efeito de foco (focus) igual ao dos inputs */
-    select:focus {
-        border-color: var(--azul);
-        outline: none;
-    }
-
-    /* Garante que as opções internas herdem a cor de fundo do select */
-    select option {
-        background: white;
-        color: var(--texto);
-}
 
     </style>
 </head>
@@ -237,34 +184,33 @@
             <h3>Posição Atual</h3>
             <p class="info"><strong>Ativo:</strong> {{ posicao._ativo.title() }}</p>
             <p class="info"><strong>Tipo:</strong> {{ posicao._tipo.title() }}</p>
-            <p class="info"><strong>Preço Médio:</strong> {{ posicao._preco_medio }}</p>
+            <p class="info"><strong>Preço Médio:</strong> {{ "%.2f" | format(posicao._preco_medio) }}</p>
             <p class="info"><strong>Quantidade de Contratos:</strong> {{ posicao._qtd_contratos }}</p>
             <p class="info"><strong>Último Preço:</strong> {{ posicao._precos[-1] if posicao._precos else '---' }}</p>
             <p class="info"><strong>Lucro/Prejuízo:</strong> {{ "{:,.2f}".format(posicao._resultado) }}</p>
         </div>
 
-    <form action="{{ url_for('entrada') }}" method="post">
-        <h3>Entrada</h3>
-        
-        <select name="ativo" required>
-            <option value="" disabled selected>Selecione o Ativo</option>
-            <option value="Dólar">Dólar</option>
-            <option value="Índice">Índice</option>
-        </select>
-        
-        <select name="tipo_operacao" required>
-            <option value="" disabled selected>Tipo de operação</option>
-            <option value="Comprado">Comprado</option>
-            <option value="Vendido">Vendido</option>
-        </select>
-        
-        <input type="number" name="qtd" placeholder="Qtd contratos" required>
-        <input type="number" step="0.01" name="preco" placeholder="Preço" required>
-        
-        <button type="submit">Registrar Entrada</button>
-    </form>
+        <!-- Formulário de entrada -->
+        <form action="{{ url_for('entrada') }}" method="post">
+            <h3>Entrada</h3>
+            <select name="ativo" required>
+                <option value="" disabled selected>Selecione o Ativo</option>
+                <option value="Dólar">Dólar</option>
+                <option value="Índice">Índice</option>
+            </select>
+            
+            <select name="tipo_operacao" required>
+                <option value="" disabled selected>Tipo de operação</option>
+                <option value="Comprado">Comprado</option>
+                <option value="Vendido">Vendido</option>
+            </select>
+            
+            <input type="number" name="qtd" placeholder="Qtd contratos" required>
+            <input type="number" step="0.01" name="preco" placeholder="Preço" required>
+            <button type="submit">Registrar Entrada</button>
+        </form>
 
-        <!-- Coluna com saída e histórico -->
+        <!-- Coluna de saída e histórico -->
         <div class="col-saida-historico">
             <form action="{{ url_for('saida') }}" method="post">
                 <h3>Saída</h3>
@@ -277,32 +223,41 @@
                 <h3>Histórico</h3>
                 <button type="submit" class="btn-desfazer">↩️ Desfazer Última Ação</button>
             </form>
+        </div>
+    </div>
 
-        {% if posicao._contratos %}
-        <div class="card contratos-tabela">
+    <!-- Lista de contratos isolada e centralizada -->
+    {% if posicao._contratos %}
+    <div class="contratos-container">
+        <div class="contratos-tabela">
             <h3>📜 Contratos</h3>
             <table>
                 <thead>
                     <tr>
+                        <th>Posição ID</th>
                         <th>Ativo</th>
                         <th>Quantidade</th>
+                        <th>Tipo</th>
+                        <th>Direção</th>
                         <th>Preço</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for contrato in posicao._contratos %}
                     <tr>
+                        <td>{{ contrato['Posição ID'] }}</td>
                         <td>{{ contrato['Ativo'] }}</td>
                         <td>{{ contrato['Quantidade contratos'] }}</td>
+                        <td>{{ contrato['Tipo'].title() }}</td>
+                        <td>{{ contrato['Direção'] }}</td>
                         <td>{{ contrato['Preço'] }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        {% endif %}
-
     </div>
+    {% endif %}
 
     <footer>Desenvolvido por Heitor — Flask + Python</footer>
 </body>

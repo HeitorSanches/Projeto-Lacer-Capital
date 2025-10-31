@@ -38,8 +38,11 @@ class Posicao:
             self._tipo = "vendido"
 
         self._contratos.append(
-            {'Ativo' :  self._ativo,
-            'Quantidade contratos' :  self._qtd_contratos,
+            {'Posição ID' : self._id,
+            'Ativo' :  self._ativo,
+            'Quantidade contratos' : qtd_contrato,
+            'Tipo': self._tipo,
+            'Direção' :  contrato._tipo_acao,
             'Preço' : contrato._preco}
         )
 
