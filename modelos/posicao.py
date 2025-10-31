@@ -174,3 +174,5 @@ class Posicao:
 
     def listar_contratos(self):
         return self._contratos
+    
+    
